@@ -3,6 +3,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import userRouter from "./src/router/userRouter.js";
+import { handleError } from "./src/middleware/errorHandler.js";
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/user", userRouter);
+
+app.use(handleError);
 
 app.listen(process.env.PORT, async function () {
   try {
