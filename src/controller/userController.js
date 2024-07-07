@@ -1,8 +1,8 @@
 import User from "../model/User.js";
-import bcrypt from "bcrypt";
 import { encodeSecret, matchSecret } from "../util/secretManagement.js";
 import UserNotFoundError from "../error/userNotFound.js";
 import InvalidCredentialsError from "../error/invalidCredential.js";
+import { generateToken } from "../util/jwtToken.js";
 
 function registerUser() {
   return async (req, res, next) => {
@@ -32,8 +32,10 @@ function loginUser() {
         throw new InvalidCredentialsError();
       }
 
+      const token = generateToken(user);
       res.status(200).json({
         message: "login successful",
+        token,
       });
     } catch (error) {
       next(error);
