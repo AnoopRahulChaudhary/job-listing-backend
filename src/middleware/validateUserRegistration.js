@@ -1,39 +1,33 @@
+import EmptyRequestFieldError from "../error/emptyRequestField.js";
+import UserExistBeforeRegistrationError from "../error/userExistBeforeRegistration.js";
 import User from "../model/User.js";
-
-function createEmptyFieldError(message) {
-  const error = new Error(message);
-  error.statusCode = 400;
-  return error;
-}
 
 function checkForEmptyFields(req) {
   const { name, email, mobile, password } = req.body;
 
   if (!name) {
-    throw createEmptyFieldError(`name can't empty`);
+    throw new EmptyRequestFieldError(`name can't empty`);
   }
 
   if (!email) {
-    throw createEmptyFieldError(`email can't empty`);
+    throw new EmptyRequestFieldError(`email can't empty`);
   }
 
   if (!mobile) {
-    throw createEmptyFieldError(`mobile can't empty`);
+    throw new EmptyRequestFieldError(`mobile can't empty`);
   }
 
   if (!password) {
-    throw createEmptyFieldError(`password can't empty`);
+    throw new EmptyRequestFieldError(`password can't empty`);
   }
 }
 
 async function checkForExistingUser(userEmail) {
   const existingUser = await User.findOne({ email: userEmail });
   if (existingUser) {
-    const error = new Error(
+    throw new UserExistBeforeRegistrationError(
       "User already exist with same email, try with different email."
     );
-    error.statusCode = 409;
-    throw error;
   }
 }
 

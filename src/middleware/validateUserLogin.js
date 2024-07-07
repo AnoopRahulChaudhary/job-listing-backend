@@ -1,18 +1,14 @@
-function createEmptyFieldError(message) {
-  const error = new Error(message);
-  error.statusCode = 400;
-  return error;
-}
+import EmptyRequestFieldError from "../error/emptyRequestField.js";
 
 function checkForEmptyFields(req) {
   const { email, password } = req.body;
 
   if (!email) {
-    throw createEmptyFieldError(`email can't empty.`);
+    throw new EmptyRequestFieldError(`email can't empty.`);
   }
 
   if (!password) {
-    throw createEmptyFieldError(`password can't empty.`);
+    throw new EmptyRequestFieldError(`password can't empty.`);
   }
 }
 
