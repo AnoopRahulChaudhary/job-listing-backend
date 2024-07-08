@@ -1,11 +1,9 @@
 import express from "express";
+import { addJob } from "../controller/jobController.js";
+import verifyToken from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.status(200).json({
-    message: "job route working",
-  });
-});
+router.post("/add", verifyToken, addJob());
 
 export default router;

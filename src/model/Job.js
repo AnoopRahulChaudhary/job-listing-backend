@@ -17,7 +17,7 @@ const jobSchema = new mongoose.Schema(
       required: true,
     },
 
-    monthlySalry: {
+    monthlySalary: {
       type: Number,
       required: true,
     },
