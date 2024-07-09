@@ -1,6 +1,18 @@
 import Job from "../model/Job.js";
 import JobNotFoundError from "../error/jobNotFound.js";
 
+function getFilteredJob() {
+  return async (req, res, next) => {
+    try {
+      res.status(200).json({
+        message: "filtered job api working",
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+}
+
 function getJobById() {
   return async (req, res, next) => {
     try {
@@ -80,4 +92,4 @@ function deleteJob() {
   };
 }
 
-export { addJob, getJobById, updateJob, deleteJob };
+export { addJob, getJobById, updateJob, deleteJob, getFilteredJob };
