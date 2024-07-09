@@ -5,3 +5,5 @@ class JobNotFoundError extends Error {
     super(message);
   }
 }
+
+export default JobNotFoundError;

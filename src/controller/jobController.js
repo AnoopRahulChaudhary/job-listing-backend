@@ -1,5 +1,6 @@
 import Job from "../model/Job.js";
 import mongoose from "mongoose";
+import JobNotFoundError from "../error/jobNotFound.js";
 
 function getJobById() {
   return async (req, res, next) => {
@@ -36,4 +37,30 @@ function addJob() {
   };
 }
 
-export { addJob, getJobById };
+function updateJob() {
+  return async (req, res, next) => {
+    try {
+      const jobId = req.params.id;
+      const jobDetailsToUpdate = {
+        ...req.body,
+        refUserId: req.userId,
+      };
+      console.debug(
+        `jobDetailsToUpdate : ${JSON.stringify(jobDetailsToUpdate)}`
+      );
+      const updatedJob = await Job.findByIdAndUpdate(jobId, jobDetailsToUpdate);
+      if (!updatedJob) {
+        throw new JobNotFoundError(`Job not found, invalid id`);
+      }
+
+      res.status(200).json({
+        message: "job updated successfully",
+        job: updateJob,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+}
+
+export { addJob, getJobById, updateJob };
