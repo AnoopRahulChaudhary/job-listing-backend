@@ -1,5 +1,4 @@
 import Job from "../model/Job.js";
-import mongoose from "mongoose";
 import JobNotFoundError from "../error/jobNotFound.js";
 
 function getJobById() {
@@ -63,4 +62,22 @@ function updateJob() {
   };
 }
 
-export { addJob, getJobById, updateJob };
+function deleteJob() {
+  return async (req, res, next) => {
+    try {
+      const jobId = req.params.id;
+      const deletedJob = await Job.findByIdAndDelete(jobId);
+      if (!deletedJob) {
+        throw new JobNotFoundError(`Job not found, invalid id.`);
+      }
+
+      res.status(200).json({
+        message: "Job deleted successfully.",
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+}
+
+export { addJob, getJobById, updateJob, deleteJob };
