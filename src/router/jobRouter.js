@@ -4,7 +4,7 @@ import {
   getJobById,
   updateJob,
   deleteJob,
-  getFilteredJob
+  getFilteredJob,
 } from "../controller/jobController.js";
 import verifyToken from "../middleware/verifyToken.js";
 import validateUpdateJob from "../middleware/validateUpdateJob.js";

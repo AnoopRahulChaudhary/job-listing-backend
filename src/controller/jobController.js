@@ -4,8 +4,17 @@ import JobNotFoundError from "../error/jobNotFound.js";
 function getFilteredJob() {
   return async (req, res, next) => {
     try {
+      const { title, skills } = req.query;
+      const filter = {
+        jobPosition: title || { $exists: true },
+        skills: { $all: JSON.parse(skills) } || { $exists: true },
+      };
+      console.debug(`job filter : ${JSON.stringify(filter)}`);
+      const jobs = await Job.find(filter);
+
       res.status(200).json({
         message: "filtered job api working",
+        jobs: jobs,
       });
     } catch (error) {
       next(error);
