@@ -1,5 +1,11 @@
 import EmptyRequestFieldError from "../error/emptyRequestField.js";
 
+function isSkillsEmpty(skills) {
+  if (!skills) return true;
+
+  return skills.length == 0;
+}
+
 function checkForEmptyFields(req) {
   const {
     companyName,
@@ -27,14 +33,14 @@ function checkForEmptyFields(req) {
   }
 
   if (!monthlySalary) {
-    throw new EmptyRequestFieldError(`jobPosition can't empty.`);
+    throw new EmptyRequestFieldError(`monthlySalary can't empty.`);
   }
 
   if (!jobType) {
     throw new EmptyRequestFieldError(`jobType can't empty.`);
   }
 
-  if (typeof isRemote == undefined) {
+  if (typeof isRemote === "undefined") {
     throw new EmptyRequestFieldError(`isRemote can't empty.`);
   }
 
@@ -50,7 +56,7 @@ function checkForEmptyFields(req) {
     throw new EmptyRequestFieldError(`aboutCompany can't empty.`);
   }
 
-  if (!skills) {
+  if (isSkillsEmpty(skills)) {
     throw new EmptyRequestFieldError(`skills can't empty.`);
   }
 }
@@ -58,7 +64,10 @@ function checkForEmptyFields(req) {
 function validateNewJob(req, res, next) {
   try {
     checkForEmptyFields(req);
-  } catch (error) {}
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
 
 export default validateNewJob;
