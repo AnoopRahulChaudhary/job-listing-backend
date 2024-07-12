@@ -5,9 +5,11 @@ import bodyParser from "body-parser";
 import userRouter from "./src/router/userRouter.js";
 import jobRouter from "./src/router/jobRouter.js";
 import { handleError } from "./src/middleware/errorHandler.js";
+import cors from "cors";
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/health", (req, res) => {

@@ -3,6 +3,7 @@ import { encodeSecret, matchSecret } from "../util/secretManagement.js";
 import UserNotFoundError from "../error/userNotFound.js";
 import InvalidCredentialsError from "../error/invalidCredential.js";
 import { generateToken } from "../util/jwtToken.js";
+import { json } from "express";
 
 function registerUser() {
   return async (req, res, next) => {
@@ -11,7 +12,10 @@ function registerUser() {
       const user = new User({ ...req.body, password: encodedSecret });
 
       await user.save();
-      res.status(201).send("User registered successfully");
+      res.status(201).json({
+        status: "Success",
+        message: "User registered successfully",
+      });
     } catch (error) {
       next(error);
     }
