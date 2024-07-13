@@ -3,7 +3,6 @@ import { encodeSecret, matchSecret } from "../util/secretManagement.js";
 import UserNotFoundError from "../error/userNotFound.js";
 import InvalidCredentialsError from "../error/invalidCredential.js";
 import { generateToken } from "../util/jwtToken.js";
-import { json } from "express";
 
 function registerUser() {
   return async (req, res, next) => {
@@ -39,6 +38,7 @@ function loginUser() {
       const token = generateToken(user);
       res.status(200).json({
         message: "login successful",
+        username: user.name,
         token,
       });
     } catch (error) {
