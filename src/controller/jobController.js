@@ -7,7 +7,7 @@ function getFilteredJob() {
       const { title, skills } = req.query;
       const filter = {
         jobPosition: title || { $exists: true },
-        skills: { $all: JSON.parse(skills) } || { $exists: true },
+        skills: skills ? { $all: JSON.parse(skills) } : { $exists: true },
       };
       console.debug(`job filter : ${JSON.stringify(filter)}`);
       const jobs = await Job.find(filter);
