@@ -25,12 +25,18 @@ function getFilteredJob() {
 function getJobById() {
   return async (req, res, next) => {
     try {
-      const job = await Job.findById(req.params.id);
+      const jobId = req.params.id;
+      console.debug(`Received id to fetch data : ${jobId}`);
+
+      const job = await Job.findById(jobId);
       if (!job) {
         throw new JobNotFoundError(`Job not found.`);
       }
 
-      res.status(200).json({ ...job });
+      res.status(200).json({
+        message: 'Success',
+        job : job
+      });
     } catch (error) {
       next(error);
     }
